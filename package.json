@@ -1,0 +1,416 @@
+{
+	"name": "usage-tracker-for-claude-code",
+	"displayName": "Usage Tracker for Claude Code",
+	"description": "Claude Code rate-limit windows, API-equivalent spend, token, cache, project and tool analytics in a status bar and panel dashboard.",
+	"version": "0.8.0",
+	"publisher": "kararo",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/jeffkararo/usage-tracker-for-claude-code.git"
+	},
+	"bugs": {
+		"url": "https://github.com/jeffkararo/usage-tracker-for-claude-code/issues"
+	},
+	"homepage": "https://github.com/jeffkararo/usage-tracker-for-claude-code#readme",
+	"icon": "resources/icon.png",
+	"engines": {
+		"vscode": "^1.95.0"
+	},
+	"categories": [
+		"Other",
+		"Visualization"
+	],
+	"keywords": [
+		"Usage Tracker",
+		"Claude",
+		"Claude Code",
+		"usage",
+		"tokens",
+		"rate limits",
+		"dashboard"
+	],
+	"activationEvents": [
+		"onStartupFinished",
+		"onTerminalProfile:claudeTracker.claudeTerminal"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "claudeTracker.showPanel",
+				"title": "Show Panel",
+				"category": "Usage Tracker"
+			},
+			{
+				"command": "claudeTracker.refresh",
+				"title": "Refresh",
+				"category": "Usage Tracker",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "claudeTracker.refreshLimits",
+				"title": "Refresh Rate Limits Now",
+				"category": "Usage Tracker"
+			},
+			{
+				"command": "claudeTracker.connectBridge",
+				"title": "Connect Statusline Bridge (live rate limits)",
+				"category": "Usage Tracker"
+			},
+			{
+				"command": "claudeTracker.disconnectBridge",
+				"title": "Disconnect Statusline Bridge",
+				"category": "Usage Tracker"
+			},
+			{
+				"command": "claudeTracker.openClaudeTerminal",
+				"title": "Open Claude Code in Terminal",
+				"category": "Usage Tracker",
+				"icon": "$(sparkle)"
+			},
+			{
+				"command": "claudeTracker.exportCsv",
+				"title": "Export Prompt History (CSV)",
+				"category": "Usage Tracker"
+			},
+			{
+				"command": "claudeTracker.exportJson",
+				"title": "Export Usage Summary (JSON)",
+				"category": "Usage Tracker"
+			},
+			{
+				"command": "claudeTracker.showOutput",
+				"title": "Show Output",
+				"category": "Usage Tracker"
+			}
+		],
+		"viewsContainers": {
+			"panel": [
+				{
+					"id": "claudeTracker",
+					"title": "Usage Tracker",
+					"icon": "resources/tracker.svg"
+				}
+			]
+		},
+		"views": {
+			"claudeTracker": [
+				{
+					"type": "webview",
+					"id": "claudeTracker.dashboard",
+					"name": "Usage Tracker",
+					"visibility": "visible"
+				}
+			]
+		},
+		"menus": {
+			"view/title": [
+				{
+					"command": "claudeTracker.refresh",
+					"when": "view == claudeTracker.dashboard",
+					"group": "navigation"
+				}
+			]
+		},
+		"configuration": {
+			"title": "Usage Tracker for Claude Code",
+			"properties": {
+				"claudeTracker.claudePath": {
+					"type": "string",
+					"default": "",
+					"description": "Path to the Claude Code CLI for the \"Claude Code\" terminal profile. Empty uses `claude` on PATH, then the CLI bundled with the Claude Code extension."
+				},
+				"claudeTracker.claudeDir": {
+					"type": "string",
+					"default": "",
+					"description": "Claude Code config directory. Empty uses CLAUDE_CONFIG_DIR, then ~/.claude."
+				},
+				"claudeTracker.historyLimit": {
+					"type": "number",
+					"default": 200,
+					"minimum": 10,
+					"maximum": 2000,
+					"description": "Maximum number of recent prompts sent to the dashboard table."
+				},
+				"claudeTracker.defaultRange": {
+					"type": "string",
+					"enum": [
+						"1d",
+						"24h",
+						"7d",
+						"14d",
+						"21d",
+						"30d",
+						"90d",
+						"365d",
+						"all"
+					],
+					"default": "7d",
+					"enumDescriptions": [
+						"Today since midnight",
+						"Rolling last 24 hours (1D)",
+						"7 days",
+						"2 weeks",
+						"3 weeks",
+						"30 days",
+						"90 days",
+						"1 year",
+						"All history"
+					],
+					"description": "Date range the dashboard opens with."
+				},
+				"claudeTracker.quotaDisplay": {
+					"type": "string",
+					"enum": [
+						"remaining",
+						"used"
+					],
+					"enumDescriptions": [
+						"Show how much of each rate-limit window is left.",
+						"Show how much of each rate-limit window has been consumed, like Claude Code's /usage."
+					],
+					"default": "remaining",
+					"description": "Whether the status bar, pills, meters and charts show how much of each 5-hour and weekly window is left or how much has been used."
+				},
+				"claudeTracker.warningAtUsedPercent": {
+					"type": "number",
+					"default": 75,
+					"minimum": 0,
+					"maximum": 100,
+					"description": "Percent of a 5-hour or weekly window used at which it turns to the warning colour. Always a \"used\" percentage, whichever way limits are displayed."
+				},
+				"claudeTracker.criticalAtUsedPercent": {
+					"type": "number",
+					"default": 90,
+					"minimum": 0,
+					"maximum": 100,
+					"description": "Percent of a 5-hour or weekly window used at which it turns to the critical colour. Must be at least the warning threshold; a lower value is raised to match it."
+				},
+				"claudeTracker.statusBarHighlight": {
+					"type": "string",
+					"enum": [
+						"background",
+						"text"
+					],
+					"enumDescriptions": [
+						"Fill the status-bar entry with the theme's warning (orange) or error (red) background. VS Code only allows these two theme colours as backgrounds.",
+						"Colour only the text, using claudeTracker.warningColor and claudeTracker.criticalColor."
+					],
+					"default": "background",
+					"description": "How the status-bar entry shows the warning and critical levels."
+				},
+				"claudeTracker.statusBarShowResets": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show when the 5-hour and weekly windows reset in the status bar (for example \"5H: 64% / Rst: 19:00\")."
+				},
+				"claudeTracker.normalColor": {
+					"type": "string",
+					"default": "",
+					"pattern": "^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6})?$",
+					"patternErrorMessage": "Use a hex colour such as #3fbca8, or leave empty for the default.",
+					"description": "Colour for a window below the warning threshold, as #rrggbb. Empty uses the theme colour in the status bar and the Claude orange in the dashboard."
+				},
+				"claudeTracker.warningColor": {
+					"type": "string",
+					"default": "#e8a23a",
+					"description": "Colour at or above the warning threshold, as #rrggbb. Used for status-bar text when statusBarHighlight is \"text\", and always in the dashboard.",
+					"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+					"patternErrorMessage": "Use a hex colour such as #e8a23a."
+				},
+				"claudeTracker.criticalColor": {
+					"type": "string",
+					"default": "#e5484d",
+					"description": "Colour at or above the critical threshold, as #rrggbb. Used for status-bar text when statusBarHighlight is \"text\", and always in the dashboard.",
+					"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+					"patternErrorMessage": "Use a hex colour such as #e5484d."
+				},
+				"claudeTracker.theme": {
+					"type": "string",
+					"enum": [
+						"vscode",
+						"dark",
+						"light",
+						"highContrast"
+					],
+					"enumDescriptions": [
+						"Recommended. Follow your VS Code colour theme, so text and backgrounds stay readable in any theme.",
+						"Always use the tracker's dark theme, whatever VS Code is using.",
+						"Always use the tracker's light theme, whatever VS Code is using.",
+						"Black background, white text and bright accents. Maximum contrast."
+					],
+					"default": "vscode",
+					"description": "Base colours for the dashboard: background, cards, text and borders. The status bar always follows your VS Code theme."
+				},
+				"claudeTracker.chartPalette": {
+					"type": "string",
+					"enum": [
+						"default",
+						"colorBlindSafe",
+						"cool",
+						"warm",
+						"vivid",
+						"custom"
+					],
+					"enumDescriptions": [
+						"Claude orange, teal, violet and blue.",
+						"Okabe-Ito colours that stay distinguishable with the common forms of colour-vision deficiency.",
+						"Blues, teals and violets.",
+						"Oranges, ambers and pinks.",
+						"Bright, saturated colours with strong separation.",
+						"Use the colours listed in claudeTracker.customChartColors."
+					],
+					"default": "default",
+					"description": "Colours for chart series, model and project bars and the heatmap."
+				},
+				"claudeTracker.customChartColors": {
+					"type": "array",
+					"items": {
+						"type": "string",
+						"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+						"patternErrorMessage": "Use a hex colour such as #3fb950."
+					},
+					"maxItems": 10,
+					"default": [],
+					"markdownDescription": "Up to ten hex colours for chart series, used when `claudeTracker.chartPalette` is `custom`. The first colour is also the heatmap colour. Missing slots use the default palette."
+				},
+				"claudeTracker.colors": {
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"accent": {
+							"type": "string",
+							"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+							"patternErrorMessage": "Use a hex colour such as #3fb950.",
+							"description": "Highlights: active range, buttons, normal meter fill and the first chart colour."
+						},
+						"marker": {
+							"type": "string",
+							"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+							"patternErrorMessage": "Use a hex colour such as #3fb950.",
+							"description": "The vertical time-remaining marker on the limit meters."
+						},
+						"background": {
+							"type": "string",
+							"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+							"patternErrorMessage": "Use a hex colour such as #3fb950.",
+							"description": "Page background."
+						},
+						"surface": {
+							"type": "string",
+							"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+							"patternErrorMessage": "Use a hex colour such as #3fb950.",
+							"description": "Card and panel background."
+						},
+						"text": {
+							"type": "string",
+							"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+							"patternErrorMessage": "Use a hex colour such as #3fb950.",
+							"description": "Main text colour."
+						},
+						"mutedText": {
+							"type": "string",
+							"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+							"patternErrorMessage": "Use a hex colour such as #3fb950.",
+							"description": "Secondary text: labels, captions and axis text."
+						},
+						"border": {
+							"type": "string",
+							"pattern": "^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$",
+							"patternErrorMessage": "Use a hex colour such as #3fb950.",
+							"description": "Card, table and input borders."
+						}
+					},
+					"default": {},
+					"markdownDescription": "Override individual dashboard colours on top of the chosen `claudeTracker.theme`. Leave a colour out to keep the theme value. You are warned if text becomes hard to read."
+				},
+				"claudeTracker.notifyOnThreshold": {
+					"type": "boolean",
+					"default": true,
+					"description": "Show a notification when the 5-hour or weekly window crosses the warning or critical threshold."
+				},
+				"claudeTracker.showCostInStatusBar": {
+					"type": "boolean",
+					"default": true,
+					"description": "Include today's API-equivalent cost in the status-bar entry."
+				},
+				"claudeTracker.planMonthlyPriceUsd": {
+					"type": "number",
+					"default": 0,
+					"minimum": 0,
+					"description": "Your Claude subscription price per month (for example 20, 100 or 200). When set, the dashboard shows how much API-equivalent usage your plan delivered. 0 hides it."
+				},
+				"claudeTracker.pricingOverrides": {
+					"type": "object",
+					"default": {},
+					"markdownDescription": "Per-model price overrides in USD per million tokens, keyed by model id prefix. Example: `{ \"claude-opus-5-5\": { \"input\": 4, \"output\": 20, \"cacheRead\": 0.2 } }`. Cache writes default to 1.25x (5m) and 2x (1h) input when omitted."
+				},
+				"claudeTracker.layoutScope": {
+					"type": "string",
+					"enum": [
+						"global",
+						"workspace"
+					],
+					"enumDescriptions": [
+						"Share card order and sizes across all VS Code windows.",
+						"Keep card order and sizes specific to this workspace."
+					],
+					"default": "global",
+					"description": "Where dashboard card layout is stored."
+				},
+				"claudeTracker.limitsPollMinutes": {
+					"type": "number",
+					"default": 5,
+					"minimum": 0,
+					"maximum": 1440,
+					"markdownDescription": "How often, in minutes, to read your 5-hour and weekly limits by running Claude Code's local `/usage` command (no model call, no tokens). Works even when you only use the VS Code chat panel. `0` turns polling off and relies on the statusline bridge."
+				},
+				"claudeTracker.pollIntervalSeconds": {
+					"type": "number",
+					"default": 60,
+					"minimum": 10,
+					"maximum": 3600,
+					"description": "Fallback rescan interval. File-change events trigger refreshes sooner."
+				},
+				"claudeTracker.outputDebug": {
+					"type": "boolean",
+					"default": false,
+					"description": "Log detailed scan, bridge and pricing diagnostics to the output channel."
+				}
+			}
+		},
+		"terminal": {
+			"profiles": [
+				{
+					"id": "claudeTracker.claudeTerminal",
+					"title": "Claude Code",
+					"icon": "sparkle"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"prepare-resources": "node scripts/copy-chartjs.cjs",
+		"compile": "npm run prepare-resources && tsc -p .",
+		"watch": "tsc -watch -p .",
+		"lint": "eslint src",
+		"test": "npm run compile && node --test \"tests/*.test.js\"",
+		"verify": "npm run lint && npm test",
+		"icon": "node scripts/make-icon.cjs",
+		"check-name": "node scripts/check-marketplace-name.cjs",
+		"package": "npm run verify && vsce package --no-dependencies"
+	},
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@types/node": "^22.20.5",
+		"@types/vscode": "~1.95.0",
+		"@vscode/vsce": "^4.0.0",
+		"eslint": "^10.12.0",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.71.2"
+	},
+	"dependencies": {
+		"chart.js": "^4.5.1"
+	}
+}

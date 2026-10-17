@@ -1,0 +1,54 @@
+name: Bug report
+description: Something is wrong, missing or confusing
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Please **do not paste prompt text, file paths you consider private, or settings.json
+        contents** into the issue. Numbers and screenshots with sample data are fine.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: 1. Open the Usage Tracker panel  2. ...
+  - type: input
+    id: version
+    attributes:
+      label: Extension version
+      description: Shown at the bottom of the dashboard's settings drawer (⚙).
+    validations:
+      required: true
+  - type: input
+    id: vscode
+    attributes:
+      label: VS Code and Claude Code versions
+      placeholder: VS Code 1.141, Claude Code 2.1.300
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Windows, macOS, Linux]
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where does it go wrong?
+      options:
+        - Rate limits (5-hour or weekly)
+        - Cost or token numbers
+        - Status bar
+        - Dashboard layout or colours
+        - Statusline bridge
+        - Other
+  - type: textarea
+    id: output
+    attributes:
+      label: Output channel
+      description: Turn on `claudeTracker.outputDebug`, run **Usage Tracker: Show Output**, and paste any errors (remove anything private).
+      render: text

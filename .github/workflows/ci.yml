@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint and test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # ESLint, then compile and run every test (pricing, parsing, themes, settings, bridge, extension host).
+      - run: npm run verify
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev
+
+      # A package that builds is a package whose manifest is valid.
+      - name: Build the .vsix
+        if: matrix.os == 'ubuntu-latest'
+        run: npx vsce package --no-dependencies

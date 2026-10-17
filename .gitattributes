@@ -1,0 +1,5 @@
+# Keep line endings identical on Windows, macOS and Linux so diffs and CI stay quiet.
+* text=auto eol=lf
+
+*.png binary
+*.vsix binary
