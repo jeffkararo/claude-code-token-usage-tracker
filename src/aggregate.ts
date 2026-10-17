@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { modelLabel, PriceBook } from './pricing';
 import {
 	BreakdownGroup,
@@ -203,9 +202,13 @@ function buildSeries(items: Priced[], prompts: PromptRecord[], kind: 'hour' | 'd
 	return points;
 }
 
+/**
+ * The last folder of a project path. Splits on both separators on every platform: Node's path.basename only
+ * understands the current platform's, so a Windows path (from a remote or WSL session) would stay whole on Linux.
+ */
 function projectName(project: string): string {
 	if (!project) return '(unknown)';
-	return path.basename(project.replace(/[\\/]+$/, '')) || project;
+	return project.replace(/[\\/]+$/, '').split(/[\\/]/).pop() || project;
 }
 
 const EFFORT_ORDER = ['low', 'medium', 'high', 'xhigh', 'max'];
