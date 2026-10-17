@@ -206,14 +206,15 @@ test('reports plan value when a monthly price is set', () => {
 });
 
 test('project folder names come out right for Windows and POSIX paths on any platform', () => {
-	const names = { 'P--a': 'P:\work\acme-api\', 'P--b': '/home/me/web-app/', 'P--c': 'C:/Users/me/docs-site', 'P--d': '/' };
+	const windowsPath = ['P:', 'work', 'acme-api', ''].join(String.fromCharCode(92)); // P:\work\acme-api\ (trailing separator)
+	const names = { 'P--a': windowsPath, 'P--b': '/home/me/web-app/', 'P--c': 'C:/Users/me/docs-site', 'P--d': '/' };
 	const model = run(
 		Object.keys(names).map(key => rec({ project: key })),
 		[],
 		{ projectPath: key => names[key] },
 	);
 	const byProject = Object.fromEntries(model.projects.map(p => [p.project, p.name]));
-	assert.equal(byProject['P:\work\acme-api\'], 'acme-api');
+	assert.equal(byProject[windowsPath], 'acme-api');
 	assert.equal(byProject['/home/me/web-app/'], 'web-app');
 	assert.equal(byProject['C:/Users/me/docs-site'], 'docs-site');
 	assert.equal(byProject['/'], '/', 'a bare root falls back to the path itself');
