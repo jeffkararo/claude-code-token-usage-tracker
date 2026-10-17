@@ -403,11 +403,11 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
-		"@types/node": "^22.20.5",
-		"@types/vscode": "~1.95.0",
+		"@types/node": "^26.6.5",
+		"@types/vscode": "~1.140.0",
 		"@vscode/vsce": "^4.0.0",
 		"eslint": "^10.12.0",
-		"typescript": "^5.9.3",
+		"typescript": "^7.0.2",
 		"typescript-eslint": "^8.71.2"
 	},
 	"dependencies": {
