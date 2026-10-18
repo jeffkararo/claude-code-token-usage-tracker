@@ -1,6 +1,6 @@
 # Publishing to the VS Code Marketplace
 
-This guide takes Usage Tracker for Claude Code from a local `.vsix` file to a public
+This guide takes Claude Code Token Usage Tracker from a local `.vsix` file to a public
 listing that anyone can install from the Extensions view. It assumes no prior
 publishing experience. Facts about Marketplace rules were checked against
 Microsoft's [Publishing Extensions](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
@@ -48,12 +48,18 @@ a name):
   you "may not use our trademarks in a manner that implies Anthropic's sponsorship or endorsement,
   or a relationship or affiliation with Anthropic".
 
-So keep **"Claude" and "Claude Code" out of the display name, the command category, the
-publisher name and the repository name.** Say what the extension works with in plain text
-instead: in the description, the README and the keywords, together with the notice *"Not
-affiliated with or endorsed by Anthropic. Claude and Claude Code are trademarks of Anthropic,
-PBC."* The Marketplace searches descriptions and keywords, so people looking for Claude Code
-usage tools still find it.
+Read literally, the first passage rules "Claude Code" out of a product name. **The owner of this
+project has decided to keep it in the display name ("Claude Code Token Usage Tracker") and accepts
+that risk.** To reduce it:
+
+- the Command Palette prefix, panel and messages say only **"Token Usage Tracker"**;
+- the extension ID (`token-usage-tracker`), the publisher (`kararo-consulting`) and the company
+  name do not contain Claude's names;
+- no Anthropic logos or lookalike marks are used (the dashboard icon is a plain gauge);
+- the README opens with *"Not affiliated with or endorsed by Anthropic. Claude and Claude Code are
+  trademarks of Anthropic, PBC."*;
+- if Anthropic ever objects, the display name can be changed in a new version (as far as is
+  known), but the extension ID cannot, which is why the ID is neutral.
 
 This is not legal advice. For certainty, ask Anthropic (the guidelines give
 marketing@anthropic.com for permission requests) or a lawyer. Many existing Marketplace extensions
@@ -62,7 +68,7 @@ have "Claude" in their names; the Marketplace allows that, but it is not permiss
 There are two names to get right:
 
 - the **display name** shown in the Marketplace and the Extensions view, and
-- the **command category**, the prefix in the Command Palette (`Usage Tracker: Show Panel`).
+- the **command category**, the prefix in the Command Palette (`Token Usage Tracker: Show Panel`).
   It is the `category` of every command in `package.json`.
 
 ### Check what already exists
@@ -84,20 +90,17 @@ everything:
 
 ### Results on 2026-10-17
 
-- **The current name, "Usage Tracker for Claude Code"**, has no exact match, but it uses
-  "Claude Code" (see above) and the space is crowded with near twins, for example *Claude Code
-  Usage Tracker* (about 14,900 installs), *Clusage - Claude Usage Tracker* and *Claude Usage
-  Tracker for Claude Code*. Replace it before 1.0.0.
-- **Free on both marketplaces** (no exact name match, and the name is not a command category in
-  any of the 288 extensions checked): **Token Beacon, Quota Compass, Burn Gauge, Fuel Gauge,
-  Token Tally, Usage Compass, Rate Gauge, Quota Radar**, and earlier checks of **Limit Lens**
-  and **Kararo Usage**.
-- **Taken or too close:** **Headroom** (`edwarddjss.headroom`, also a command category),
-  **Redline** (taken, and its command category is used by four extensions), and **Pacer**
-  (*Pacer for GitHub Copilot* does the same job for another tool).
-
-Choose a distinctive brand that says what it does (a gauge, quota or meter word) without using
-Anthropic's names, and put "Claude Code" in the description and keywords instead.
+- **Chosen: "Claude Code Token Usage Tracker".** No exact match on the Marketplace or Open VSX,
+  and "Token Usage Tracker" is not a command category in any of the 80 manifests checked. Nearest
+  neighbour: *Codaude: Claude Code & Codex Token Usage Tracker* (26 installs).
+- **Taken, so not usable:** **Claude Code Usage Tracker** (`YahyaShareef.claude-code-usage-tracker`,
+  about 14,900 installs), **Claude Code Token Tracker** (`claude-token-tracker.claude-code-token-tracker`,
+  about 2,200 installs, plus a near twin), **Claude Code Usage Monitor** and **Claude Code Usage
+  Dashboard**. Also taken or too close: **Headroom**, **Redline**, and **Pacer** (*Pacer for GitHub
+  Copilot*).
+- **Fallbacks without Claude's names**, free on both marketplaces on 2026-10-17 if the name ever has
+  to change: **Quota Compass, Burn Gauge, Token Beacon, Fuel Gauge, Token Tally, Usage Compass,
+  Rate Gauge, Quota Radar**.
 
 ### Changing the name before 1.0.0
 
@@ -131,7 +134,7 @@ redirects the old URL) and update `repository`, `bugs` and `homepage`. Keep the
 
 ### 3.1 GitHub repository
 
-The source lives at <https://github.com/jeffkararo/usage-tracker-for-claude-code>. The
+The source lives at <https://github.com/jeffkararo/claude-code-token-usage-tracker>. The
 `repository`, `bugs` and `homepage` fields in `package.json` point to it. Without them,
 `vsce` cannot rewrite the README's relative links and image paths into working URLs.
 

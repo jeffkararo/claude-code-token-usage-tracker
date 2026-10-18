@@ -30,7 +30,7 @@ export class TrackerStatusBar implements vscode.Disposable {
 		this.item.name = 'Claude Code Usage';
 		this.item.command = OPEN_PANEL;
 		this.item.text = '$(pulse) Claude';
-		this.item.tooltip = 'Usage Tracker: scanning transcripts…';
+		this.item.tooltip = 'Token Usage Tracker: scanning transcripts…';
 		this.item.show();
 	}
 

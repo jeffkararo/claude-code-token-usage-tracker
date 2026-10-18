@@ -70,11 +70,11 @@ export class DashboardProvider implements vscode.WebviewViewProvider {
 <meta http-equiv="Content-Security-Policy" content="${csp}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${asset('dashboard.css')}">
-<title>Usage Tracker</title>
+<title>Token Usage Tracker</title>
 </head>
 <body>
 	<header class="topbar">
-		<div class="brand"><span class="logo" aria-hidden="true">✳</span><span class="title">Usage</span><div id="quotaStrip" class="quota-strip" aria-label="Rate-limit windows"></div></div>
+		<div class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 17.5a9 9 0 1 1 15 0"/><path d="M12 13l4.2-4.2"/><circle cx="12" cy="13" r="1.4" fill="currentColor"/></svg></span><span class="title">Usage</span><div id="quotaStrip" class="quota-strip" aria-label="Rate-limit windows"></div></div>
 		<nav id="ranges" class="ranges" aria-label="Date range"></nav>
 		<div class="top-actions">
 			<button id="displayToggle" class="btn small" type="button" title="Switch between remaining and used">Showing: Left</button>

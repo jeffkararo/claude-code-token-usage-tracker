@@ -47,7 +47,7 @@ export async function resolveClaudeCli(): Promise<string | undefined> {
 function missingCliMessage(): void {
 	void vscode.window
 		.showErrorMessage(
-			'Usage Tracker: could not find the Claude Code CLI. Install the Claude Code extension or the CLI, or set claudeTracker.claudePath.',
+			'Token Usage Tracker: could not find the Claude Code CLI. Install the Claude Code extension or the CLI, or set claudeTracker.claudePath.',
 			'Open Setting',
 		)
 		.then(pick => pick && vscode.commands.executeCommand('workbench.action.openSettings', 'claudeTracker.claudePath'));

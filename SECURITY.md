@@ -2,7 +2,7 @@
 
 ## What this extension touches
 
-Usage Tracker for Claude Code reads files Claude Code already writes on your machine and makes no network
+Claude Code Token Usage Tracker reads files Claude Code already writes on your machine and makes no network
 requests of its own:
 
 - transcripts under `~/.claude/projects/` (token counts, timestamps, tool names, and the text of your prompts,

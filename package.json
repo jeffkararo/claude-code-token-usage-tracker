@@ -1,18 +1,18 @@
 {
-	"name": "usage-tracker-for-claude-code",
-	"displayName": "Usage Tracker for Claude Code",
-	"description": "Claude Code rate-limit windows, API-equivalent spend, token, cache, project and tool analytics in a status bar and panel dashboard.",
-	"version": "0.8.0",
+	"name": "token-usage-tracker",
+	"displayName": "Claude Code Token Usage Tracker",
+	"description": "Track your Claude Code token usage: rate-limit windows, API-equivalent spend, cache, project and tool analytics in a status bar and panel dashboard.",
+	"version": "0.9.0",
 	"publisher": "kararo-consulting",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/jeffkararo/usage-tracker-for-claude-code.git"
+		"url": "https://github.com/jeffkararo/claude-code-token-usage-tracker.git"
 	},
 	"bugs": {
-		"url": "https://github.com/jeffkararo/usage-tracker-for-claude-code/issues"
+		"url": "https://github.com/jeffkararo/claude-code-token-usage-tracker/issues"
 	},
-	"homepage": "https://github.com/jeffkararo/usage-tracker-for-claude-code#readme",
+	"homepage": "https://github.com/jeffkararo/claude-code-token-usage-tracker#readme",
 	"icon": "resources/icon.png",
 	"engines": {
 		"vscode": "^1.95.0"
@@ -22,7 +22,7 @@
 		"Visualization"
 	],
 	"keywords": [
-		"Usage Tracker",
+		"Token Usage Tracker",
 		"Claude",
 		"Claude Code",
 		"usage",
@@ -40,56 +40,56 @@
 			{
 				"command": "claudeTracker.showPanel",
 				"title": "Show Panel",
-				"category": "Usage Tracker"
+				"category": "Token Usage Tracker"
 			},
 			{
 				"command": "claudeTracker.refresh",
 				"title": "Refresh",
-				"category": "Usage Tracker",
+				"category": "Token Usage Tracker",
 				"icon": "$(refresh)"
 			},
 			{
 				"command": "claudeTracker.refreshLimits",
 				"title": "Refresh Rate Limits Now",
-				"category": "Usage Tracker"
+				"category": "Token Usage Tracker"
 			},
 			{
 				"command": "claudeTracker.connectBridge",
 				"title": "Connect Statusline Bridge (live rate limits)",
-				"category": "Usage Tracker"
+				"category": "Token Usage Tracker"
 			},
 			{
 				"command": "claudeTracker.disconnectBridge",
 				"title": "Disconnect Statusline Bridge",
-				"category": "Usage Tracker"
+				"category": "Token Usage Tracker"
 			},
 			{
 				"command": "claudeTracker.openClaudeTerminal",
 				"title": "Open Claude Code in Terminal",
-				"category": "Usage Tracker",
+				"category": "Token Usage Tracker",
 				"icon": "$(sparkle)"
 			},
 			{
 				"command": "claudeTracker.exportCsv",
 				"title": "Export Prompt History (CSV)",
-				"category": "Usage Tracker"
+				"category": "Token Usage Tracker"
 			},
 			{
 				"command": "claudeTracker.exportJson",
 				"title": "Export Usage Summary (JSON)",
-				"category": "Usage Tracker"
+				"category": "Token Usage Tracker"
 			},
 			{
 				"command": "claudeTracker.showOutput",
 				"title": "Show Output",
-				"category": "Usage Tracker"
+				"category": "Token Usage Tracker"
 			}
 		],
 		"viewsContainers": {
 			"panel": [
 				{
 					"id": "claudeTracker",
-					"title": "Usage Tracker",
+					"title": "Token Usage Tracker",
 					"icon": "resources/tracker.svg"
 				}
 			]
@@ -99,7 +99,7 @@
 				{
 					"type": "webview",
 					"id": "claudeTracker.dashboard",
-					"name": "Usage Tracker",
+					"name": "Token Usage Tracker",
 					"visibility": "visible"
 				}
 			]
@@ -114,7 +114,7 @@
 			]
 		},
 		"configuration": {
-			"title": "Usage Tracker for Claude Code",
+			"title": "Claude Code Token Usage Tracker",
 			"properties": {
 				"claudeTracker.claudePath": {
 					"type": "string",

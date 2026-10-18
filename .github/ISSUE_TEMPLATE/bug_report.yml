@@ -17,7 +17,7 @@ body:
     id: steps
     attributes:
       label: Steps to reproduce
-      placeholder: 1. Open the Usage Tracker panel  2. ...
+      placeholder: 1. Open the Token Usage Tracker panel  2. ...
   - type: input
     id: version
     attributes:
@@ -50,5 +50,5 @@ body:
     id: output
     attributes:
       label: Output channel
-      description: Turn on `claudeTracker.outputDebug`, run **Usage Tracker: Show Output**, and paste any errors (remove anything private).
+      description: Turn on `claudeTracker.outputDebug`, run **Token Usage Tracker: Show Output**, and paste any errors (remove anything private).
       render: text

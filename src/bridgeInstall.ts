@@ -92,7 +92,7 @@ export class BridgeInstaller {
 		const nodeVersion = await nodeAvailable();
 		if (!nodeVersion) {
 			void vscode.window.showErrorMessage(
-				'Usage Tracker: the statusline bridge needs Node.js on PATH (Claude Code runs it as `node …`). Install Node.js and try again.',
+				'Token Usage Tracker: the statusline bridge needs Node.js on PATH (Claude Code runs it as `node …`). Install Node.js and try again.',
 			);
 			return false;
 		}
@@ -100,14 +100,14 @@ export class BridgeInstaller {
 		try {
 			parsed = await readSettings(this.settingsPath);
 		} catch (error) {
-			void vscode.window.showErrorMessage(`Usage Tracker: could not parse ${this.settingsPath}; it was left unchanged. ${String(error)}`);
+			void vscode.window.showErrorMessage(`Token Usage Tracker: could not parse ${this.settingsPath}; it was left unchanged. ${String(error)}`);
 			return false;
 		}
 		const { settings, exists } = parsed;
 		const existing: StatusLineSetting | undefined = settings.statusLine;
 		if (existing?.command?.includes(SCRIPT_NAME)) {
 			await this.syncScript();
-			void vscode.window.showInformationMessage('Usage Tracker: the statusline bridge is already connected.');
+			void vscode.window.showInformationMessage('Token Usage Tracker: the statusline bridge is already connected.');
 			return true;
 		}
 
@@ -122,7 +122,7 @@ export class BridgeInstaller {
 					`This sets "statusLine" in ${this.settingsPath} to run a small local script (${this.scriptPath}). ` +
 					'Claude Code passes it your 5-hour and weekly rate-limit usage, context window and prompt-cache stats; the script saves them under ' +
 					`${this.dataDir} for this extension. Nothing is sent anywhere.${chainNote}\n\n` +
-					'A backup of settings.json is written next to it. Use "Usage Tracker: Disconnect Statusline Bridge" to undo.',
+					'A backup of settings.json is written next to it. Use "Token Usage Tracker: Disconnect Statusline Bridge" to undo.',
 			},
 			'Connect',
 		);
@@ -142,7 +142,7 @@ export class BridgeInstaller {
 		await fsp.writeFile(this.settingsPath, JSON.stringify(settings, null, 2) + '\n');
 		this.log(`Bridge connected using Node ${nodeVersion}: ${statusLine.command}`);
 		void vscode.window.showInformationMessage(
-			'Usage Tracker: bridge connected. Live limits appear after the next Claude Code response (Pro and Max plans report rate limits).',
+			'Token Usage Tracker: bridge connected. Live limits appear after the next Claude Code response (Pro and Max plans report rate limits).',
 		);
 		return true;
 	}
@@ -152,12 +152,12 @@ export class BridgeInstaller {
 		try {
 			parsed = await readSettings(this.settingsPath);
 		} catch (error) {
-			void vscode.window.showErrorMessage(`Usage Tracker: could not parse ${this.settingsPath}; it was left unchanged. ${String(error)}`);
+			void vscode.window.showErrorMessage(`Token Usage Tracker: could not parse ${this.settingsPath}; it was left unchanged. ${String(error)}`);
 			return false;
 		}
 		const { settings } = parsed;
 		if (!settings.statusLine?.command?.includes(SCRIPT_NAME)) {
-			void vscode.window.showInformationMessage('Usage Tracker: the statusline bridge is not connected.');
+			void vscode.window.showInformationMessage('Token Usage Tracker: the statusline bridge is not connected.');
 			return false;
 		}
 		let previous: StatusLineSetting | null;

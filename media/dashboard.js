@@ -1,4 +1,4 @@
-// Usage Tracker dashboard (webview client). Plain browser JS, no bundler.
+// Token Usage Tracker dashboard (webview client). Plain browser JS, no bundler.
 (function () {
 	'use strict';
 	/* global acquireVsCodeApi, Chart */

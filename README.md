@@ -1,4 +1,4 @@
-# Usage Tracker for Claude Code
+# Claude Code Token Usage Tracker
 
 > Not affiliated with or endorsed by Anthropic. Claude and Claude Code are trademarks of Anthropic, PBC.
 
@@ -72,14 +72,14 @@ and writes no transcript. The extension reads the "Current session" (5-hour)
 and "Current week" lines. This works even if you only use the VS Code chat
 panel. If a future Claude Code version ever sent `/usage` to the model,
 the extension notices the cost, stops polling and tells you.
-**Usage Tracker: Refresh Rate Limits Now** polls on demand, and so does the
+**Token Usage Tracker: Refresh Rate Limits Now** polls on demand, and so does the
 dashboard's ⟳ button.
 
 ### The statusline bridge
 
 Claude Code passes a JSON snapshot to the configured `statusLine` command after
 each response. For Pro and Max subscribers this includes `rate_limits`. Run
-**Usage Tracker: Connect Statusline Bridge** to:
+**Token Usage Tracker: Connect Statusline Bridge** to:
 
 1. copy `statusline-bridge.js` to `~/.claude/claude-code-tracker/`,
 2. back up `~/.claude/settings.json` to `settings.json.claude-tracker.bak`,
@@ -93,7 +93,7 @@ only to `~/.claude/claude-code-tracker/`.
 **The VS Code chat panel does not run statusline commands**, so it never
 sends limits. Rate limits arrive only from Claude Code running in a terminal.
 The extension adds a **Claude Code** entry to the terminal **+** menu (and the
-command **Usage Tracker: Open Claude Code in Terminal**). That entry runs
+command **Token Usage Tracker: Open Claude Code in Terminal**). That entry runs
 `claudeTracker.claudePath`, otherwise `claude` on PATH, otherwise the CLI
 bundled with the Claude Code extension. One prompt there refreshes the limits
 for your whole account.

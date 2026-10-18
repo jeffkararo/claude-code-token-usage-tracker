@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-// Claude Code statusline bridge for Usage Tracker for Claude Code.
+// Claude Code statusline bridge for Claude Code Token Usage Tracker.
 //
 // Claude Code pipes a JSON snapshot of the session (model, context window,
 // cost, prompt cache and, for Pro/Max subscribers, rate limits) to the

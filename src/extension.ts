@@ -32,7 +32,7 @@ function resolveClaudeDir(): string {
 }
 
 class Tracker implements vscode.Disposable {
-	private readonly output = vscode.window.createOutputChannel('Usage Tracker');
+	private readonly output = vscode.window.createOutputChannel('Token Usage Tracker');
 	private readonly statusBar = new TrackerStatusBar();
 	private readonly disposables: vscode.Disposable[] = [];
 	private readonly watchers: vscode.Disposable[] = [];
@@ -156,7 +156,7 @@ class Tracker implements vscode.Disposable {
 			const cli = await resolveClaudeCli();
 			if (!cli) {
 				this.log('Limits poll skipped: Claude Code CLI not found.');
-				if (announce) void vscode.window.showWarningMessage('Usage Tracker: could not find the Claude Code CLI to read limits.');
+				if (announce) void vscode.window.showWarningMessage('Token Usage Tracker: could not find the Claude Code CLI to read limits.');
 				return;
 			}
 			const cwd = this.context.globalStorageUri.fsPath;
@@ -168,12 +168,12 @@ class Tracker implements vscode.Disposable {
 				// Never let a future CLI turn polling into billed model calls.
 				this.pollDisabledReason = result.error;
 				this.log(`Limits polling stopped: ${result.error}`);
-				void vscode.window.showWarningMessage(`Usage Tracker stopped polling limits: ${result.error}. The statusline bridge still works.`);
+				void vscode.window.showWarningMessage(`Token Usage Tracker stopped polling limits: ${result.error}. The statusline bridge still works.`);
 				return;
 			}
 			if (!result.report) {
 				this.log(`Limits poll failed: ${result.error}`);
-				if (announce) void vscode.window.showWarningMessage(`Usage Tracker: could not read limits. ${result.error ?? ''}`);
+				if (announce) void vscode.window.showWarningMessage(`Token Usage Tracker: could not read limits. ${result.error ?? ''}`);
 				return;
 			}
 			const saved = await saveReport(this.bridge.directory, result.report);
@@ -184,7 +184,7 @@ class Tracker implements vscode.Disposable {
 			);
 			if (!saved && announce) {
 				void vscode.window.showInformationMessage(
-					r.subscription ? 'Usage Tracker: /usage returned no limit windows.' : 'Usage Tracker: rate limits are only reported for Claude Pro and Max subscriptions.',
+					r.subscription ? 'Token Usage Tracker: /usage returned no limit windows.' : 'Token Usage Tracker: rate limits are only reported for Claude Pro and Max subscriptions.',
 				);
 			}
 			if (saved) await this.refresh();
@@ -272,7 +272,7 @@ class Tracker implements vscode.Disposable {
 			this.postState();
 		} catch (error) {
 			this.log(`Refresh failed: ${error instanceof Error ? (error.stack ?? error.message) : String(error)}`);
-			if (reportErrors) void vscode.window.showErrorMessage(`Usage Tracker refresh failed: ${String(error)}`);
+			if (reportErrors) void vscode.window.showErrorMessage(`Token Usage Tracker refresh failed: ${String(error)}`);
 		}
 	}
 
@@ -391,9 +391,9 @@ class Tracker implements vscode.Disposable {
 				}
 				// Readability warnings come from the saved result, so they also catch a good colour on a bad base.
 				if (['theme', 'colors', 'chartPalette', 'customChartColors'].some(k => k in values)) problems.push(...this.effectiveTheme().warnings);
-				if (problems.length) void vscode.window.showWarningMessage(`Usage Tracker: ${problems.join(' ')}`);
+				if (problems.length) void vscode.window.showWarningMessage(`Token Usage Tracker: ${problems.join(' ')}`);
 				if ('defaultRange' in message.values) await this.context.globalState.update(RANGE_KEY, message.values.defaultRange);
-				void vscode.window.setStatusBarMessage('Usage Tracker settings saved', 2500);
+				void vscode.window.setStatusBarMessage('Token Usage Tracker settings saved', 2500);
 				// Re-post even when every change was rejected, so a live preview in the dashboard snaps back to what is saved.
 				this.postState();
 				return;

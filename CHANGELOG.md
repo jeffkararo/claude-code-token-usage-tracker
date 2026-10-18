@@ -3,6 +3,14 @@
 Versions below 1.0.0 are development builds and are not published to the Marketplace.
 The first Marketplace release will be **1.0.0**.
 
+## 0.9.0 — 2026-10-17
+
+- Renamed to **Claude Code Token Usage Tracker** (extension ID `kararo-consulting.token-usage-tracker`). The Command Palette prefix, panel and messages say **Token Usage Tracker**.
+- The extension now publishes under the **Kararo Consulting LLC** Marketplace publisher (`kararo-consulting`).
+- The dashboard header uses a neutral gauge icon instead of a star glyph.
+- **The extension ID changed, so VS Code treats this as a new extension.** Uninstall the earlier builds (`kararo.claude-code-tracker` and `kararo.usage-tracker-for-claude-code`, if installed) after installing this one, or they will run side by side. Settings, the statusline bridge and its data carry over unchanged.
+- The repository is now `claude-code-token-usage-tracker`; the old address redirects.
+
 ## 0.8.0 — 2026-10-17
 
 - Renamed to **Usage Tracker for Claude Code** (extension ID `usage-tracker-for-claude-code`), to avoid implying it is an Anthropic product. The README now carries a "not affiliated with Anthropic" notice.
