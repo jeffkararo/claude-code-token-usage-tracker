@@ -3,7 +3,7 @@
 	"displayName": "Usage Tracker for Claude Code",
 	"description": "Claude Code rate-limit windows, API-equivalent spend, token, cache, project and tool analytics in a status bar and panel dashboard.",
 	"version": "0.8.0",
-	"publisher": "kararo",
+	"publisher": "kararo-consulting",
 	"license": "MIT",
 	"repository": {
 		"type": "git",

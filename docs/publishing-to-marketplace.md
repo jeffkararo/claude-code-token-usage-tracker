@@ -31,10 +31,33 @@ So settle the name (section 1) and the publisher (section 4) first.
 
 ## 1. The name
 
-"Claude" and "Claude Code" are Anthropic trademarks, so the extension is named for what it
-does and what it works with, not as if it were an Anthropic product. The README opens with
-*"Not affiliated with or endorsed by Anthropic. Claude and Claude Code are trademarks of
-Anthropic, PBC."* Keep that notice.
+"Claude" and "Claude Code" are Anthropic's names, and Anthropic's published rules limit how
+others may use them. As read on 2026-10-17 (read the current pages again before you commit to
+a name):
+
+- The [Claude Code legal page](https://code.claude.com/docs/en/legal-and-compliance) says you
+  "can accurately say, in plain text, that your product has Claude Code preinstalled or that it
+  runs Claude Code. But you can't use the Claude Code or Anthropic names or logos as part of your
+  own product, feature, or company name, in your own logo, or in a way that suggests Anthropic
+  built, endorses, or is partnered with your product." That passage is written for products that
+  preinstall or run Claude Code, which is close to what this extension does: it runs the user's
+  own `claude` command.
+- The [Trademark Guidelines](https://www.anthropic.com/legal/trademark-guidelines) say the
+  trademarks "include our names, logos, brand elements, and anything we use to identify our goods
+  and services", that you "may only use our trademarks as specifically permitted by us", and that
+  you "may not use our trademarks in a manner that implies Anthropic's sponsorship or endorsement,
+  or a relationship or affiliation with Anthropic".
+
+So keep **"Claude" and "Claude Code" out of the display name, the command category, the
+publisher name and the repository name.** Say what the extension works with in plain text
+instead: in the description, the README and the keywords, together with the notice *"Not
+affiliated with or endorsed by Anthropic. Claude and Claude Code are trademarks of Anthropic,
+PBC."* The Marketplace searches descriptions and keywords, so people looking for Claude Code
+usage tools still find it.
+
+This is not legal advice. For certainty, ask Anthropic (the guidelines give
+marketing@anthropic.com for permission requests) or a lawyer. Many existing Marketplace extensions
+have "Claude" in their names; the Marketplace allows that, but it is not permission from Anthropic.
 
 There are two names to get right:
 
@@ -59,21 +82,22 @@ everything:
 - It does not check trademarks or other registries. Search the USPTO database and the web
   for a name before you commit to it.
 
-### Result on 2026-10-17
+### Results on 2026-10-17
 
-- **"Usage Tracker for Claude Code"**: no exact match, but the space is crowded with near
-  twins, for example *Claude Code Usage Tracker* (about 14,900 installs), *Clusage - Claude
-  Usage Tracker*, and *Claude Usage Tracker for Claude Code*. Nothing blocks the name, but
-  users will confuse it with those.
-- The command category **"Usage Tracker"** was not used by any of the 333 extensions the
-  searches surfaced.
-- **Headroom** is taken (`edwarddjss.headroom`, also a command category).
-- No exact matches on either marketplace for: **Limit Lens**, **Quota Compass**, **Burn Gauge**,
-  **Token Beacon**, **Kararo Usage**.
+- **The current name, "Usage Tracker for Claude Code"**, has no exact match, but it uses
+  "Claude Code" (see above) and the space is crowded with near twins, for example *Claude Code
+  Usage Tracker* (about 14,900 installs), *Clusage - Claude Usage Tracker* and *Claude Usage
+  Tracker for Claude Code*. Replace it before 1.0.0.
+- **Free on both marketplaces** (no exact name match, and the name is not a command category in
+  any of the 288 extensions checked): **Token Beacon, Quota Compass, Burn Gauge, Fuel Gauge,
+  Token Tally, Usage Compass, Rate Gauge, Quota Radar**, and earlier checks of **Limit Lens**
+  and **Kararo Usage**.
+- **Taken or too close:** **Headroom** (`edwarddjss.headroom`, also a command category),
+  **Redline** (taken, and its command category is used by four extensions), and **Pacer**
+  (*Pacer for GitHub Copilot* does the same job for another tool).
 
-Choosing a more distinctive brand (a name that is not generic) helps in search and in the
-Command Palette. A common pattern is `<Brand> for Claude Code` as the display name and
-`<Brand>` as the command category.
+Choose a distinctive brand that says what it does (a gauge, quota or meter word) without using
+Anthropic's names, and put "Claude Code" in the description and keywords instead.
 
 ### Changing the name before 1.0.0
 
@@ -159,13 +183,13 @@ add more members later, so that ownership does not depend on one login.
    - **Name:** `Kararo Consulting LLC`. This is displayed on every listing, and the
      official page says it "can be your company or brand name". Spell it exactly as you want
      it permanently, because changing it later revokes a verified badge.
-   - **ID:** permanent, shown in URLs and install IDs. Suggestion: `kararo-consulting`
-     (lowercase letters, numbers and hyphens). The ID can differ from the name.
+   - **ID:** permanent, shown in URLs and install IDs (lowercase letters, numbers and hyphens).
+     The ID can differ from the name.
 4. Optionally add a logo, website (<https://kararo.com>), and support and source links.
-5. Click **Create**, then set `"publisher": "kararo-consulting"` in `package.json`. The
-   current value `kararo` is a placeholder.
+5. Click **Create**, then set the ID as `"publisher"` in `package.json`.
 
-The extension ID will be `kararo-consulting.<name>`.
+**Done:** the publisher **Kararo Consulting LLC** exists with ID **`kararo-consulting`**, and
+`package.json` uses it, so the extension ID will be `kararo-consulting.<name>`.
 
 ### 4.3 Add members (optional)
 
