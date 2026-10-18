@@ -8,6 +8,17 @@ updates:
     groups:
       dev-dependencies:
         dependency-type: development
+    ignore:
+      # vsce refuses to package when @types/vscode is newer than engines.vscode in package.json.
+      # Raise engines.vscode and this together, by hand, when the extension needs a newer VS Code API.
+      - dependency-name: "@types/vscode"
+      # typescript-eslint supports TypeScript below 6.1, so TypeScript 7 fails `npm ci` (peer conflict).
+      # Move to a new major deliberately, once typescript-eslint supports it.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      # Keep the Node type definitions in step with the Node version the extension and CI actually use.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
