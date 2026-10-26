@@ -317,7 +317,7 @@ GitHub Actions specifics are not covered there, so test it with a pre-release ve
 - [x] Version set to **1.0.0** with a changelog entry (section 2)
 - [x] README has screenshots, the Anthropic notice, and working links
 - [ ] Screenshots and README pushed to GitHub `main`
-- [ ] A real status-bar screenshot added to the README (optional but recommended)
+- [x] A real status-bar screenshot added to the README
 - [ ] `npm.cmd run package` passes and the `.vsix` was tried by hand
 - [ ] Uploaded in the browser (5.1), or published with Entra (5.2)
 - [ ] Optional: Open VSX (section 7), verified domain (4.4), release automation (section 8)

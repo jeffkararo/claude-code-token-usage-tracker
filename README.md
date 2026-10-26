@@ -12,16 +12,20 @@ It reads the files Claude Code already writes on your machine. It makes no netwo
 
 ![The dashboard: rate-limit meters with a time marker, API-equivalent spend, live sessions, and token charts](docs/images/dashboard.png)
 
-*Screenshots use made-up sample data.*
+*Dashboard screenshots use made-up sample data. The two status-bar images are from a real session.*
 
 ## Get started
 
 1. **Install** the extension and use Claude Code as usual, in the terminal or the VS Code chat panel.
 2. **Look at the status bar** (bottom right). Within a few minutes it shows your windows, for example
-   `5H: 64% / Rst: 19:00 · Weekly: 59% / Rst: Thu · $1.08`: what is left, when each window resets, and today's
-   API-equivalent cost. Hover for pace and projected run-out time.
+   `5H: 69% / Rst: 02:09 PM · Weekly: 94% / Rst: 10/30, 02:59 AM · $12.55`: what is left, when each window resets, and
+   today's API-equivalent cost. Hover for pace and projected run-out time.
 3. **Click it**, or run **Token Usage Tracker: Show Panel** from the Command Palette, to open the dashboard. It lives in
    the bottom panel next to Terminal and Problems.
+
+![The status-bar entry: 5-hour and weekly windows left, reset times and today's cost](docs/images/status-bar.png)
+
+![The status-bar tooltip: each window's remaining share, reset time and pace, today's cost, and the warning thresholds](docs/images/status-bar-2.png)
 
 That is all the setup the core features need. Optionally, [connect the statusline bridge](#the-optional-statusline-bridge)
 for live context-window and cache details.
