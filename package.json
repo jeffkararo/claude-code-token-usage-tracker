@@ -2,7 +2,7 @@
 	"name": "token-usage-tracker",
 	"displayName": "Claude Code Token Usage Tracker",
 	"description": "Track your Claude Code token usage: rate-limit windows, API-equivalent spend, cache, project and tool analytics in a status bar and panel dashboard.",
-	"version": "0.9.0",
+	"version": "1.0.0",
 	"publisher": "kararo-consulting",
 	"license": "MIT",
 	"repository": {
@@ -14,6 +14,11 @@
 	},
 	"homepage": "https://github.com/jeffkararo/claude-code-token-usage-tracker#readme",
 	"icon": "resources/icon.png",
+	"galleryBanner": {
+		"color": "#1f1a24",
+		"theme": "dark"
+	},
+	"pricing": "Free",
 	"engines": {
 		"vscode": "^1.95.0"
 	},
@@ -28,7 +33,13 @@
 		"usage",
 		"tokens",
 		"rate limits",
-		"dashboard"
+		"dashboard",
+		"cost",
+		"token counter",
+		"usage monitor",
+		"status bar",
+		"statusline",
+		"prompt caching"
 	],
 	"activationEvents": [
 		"onStartupFinished",
@@ -398,6 +409,7 @@
 		"test": "npm run compile && node --test \"tests/*.test.js\"",
 		"verify": "npm run lint && npm test",
 		"icon": "node scripts/make-icon.cjs",
+		"screenshots": "npm run compile && node scripts/make-screenshots.cjs",
 		"check-name": "node scripts/check-marketplace-name.cjs",
 		"package": "npm run verify && vsce package --no-dependencies"
 	},

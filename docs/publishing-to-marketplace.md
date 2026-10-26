@@ -143,8 +143,12 @@ The source lives at <https://github.com/jeffkararo/claude-code-token-usage-track
 The Marketplace page shows `README.md`, so that file is your storefront.
 
 - **Screenshots:** `docs/images/` holds sample-data screenshots, referenced from the README
-  with relative paths. Because `repository` is a GitHub URL, `vsce` rewrites them to HTTPS
-  URLs when it packages. The Marketplace rejects plain `http` and SVG images (except badges
+  with relative paths. `npm.cmd run screenshots` regenerates all of them from made-up data (it
+  never touches `~/.claude`); run it at each release, because the settings shot prints the
+  version. Because `repository` is a GitHub URL, `vsce` rewrites the paths to HTTPS
+  URLs when it packages, **so the images must be pushed to GitHub's `main` branch before the
+  listing is uploaded**, or they show as broken. The one shot the script cannot make is the
+  status bar: it needs a real VS Code window. The Marketplace rejects plain `http` and SVG images (except badges
   from approved providers). If you move to a non-GitHub host, pass `--baseImagesUrl` and
   `--baseContentUrl` to `vsce`.
 - **Icon:** `resources/icon.png` is 128×128 PNG, which meets the requirement. Run
@@ -219,13 +223,22 @@ Kararo Consulting LLC and use the LLC's own domain.
 
 The simplest route needs no tokens at all:
 
-1. Set the version (section 2: `1.0.0`) and run `npm.cmd run package`.
-2. Go to <https://marketplace.visualstudio.com/manage>, choose the publisher, then
-   **New extension → Visual Studio Code**, and upload the `.vsix`.
-
-The Marketplace scans the package for malware and secrets, which usually takes a few minutes.
-The listing then appears at
-`https://marketplace.visualstudio.com/items?itemName=<publisher>.<name>`.
+1. Set the version (section 2: `1.0.0`) and run `npm.cmd run package`. This produces
+   `token-usage-tracker-1.0.0.vsix` in the project folder.
+2. Make sure the commit with the README and `docs/images/` is pushed to `main` on GitHub.
+3. Go to <https://marketplace.visualstudio.com/manage> and sign in with the Microsoft account
+   that owns the `kararo-consulting` publisher.
+4. Select the publisher, then **New extension → Visual Studio Code** (the wording on the
+   button has varied: **Add an extension** is the same thing), and choose the `.vsix`.
+5. The Marketplace verifies the package (it checks the manifest, scans for malware and for
+   secrets). Wait for the status to change from *Verifying* to a green tick, usually a few
+   minutes. If it fails, the page shows the reason. Fix it and upload again; if the
+   Marketplace refuses the same version a second time, bump to 1.0.1.
+6. Open `https://marketplace.visualstudio.com/items?itemName=kararo-consulting.token-usage-tracker`
+   and check: the icon, the banner, every screenshot, the Changelog tab and the links.
+   Pages can lag by a few minutes.
+7. Install it from the Extensions view (search for the extension ID) in a clean VS Code
+   profile and try it once: status bar, panel, connect and disconnect the bridge.
 
 ### 5.2 From the command line
 
@@ -301,8 +314,10 @@ GitHub Actions specifics are not covered there, so test it with a pre-release ve
 - [ ] Final **name**, display name and command category chosen and checked (section 1)
 - [ ] Publisher created as **Kararo Consulting LLC**, ID decided, `publisher` set in
       `package.json` (section 4)
-- [ ] Version set to **1.0.0** with a changelog entry (section 2)
-- [ ] README has screenshots, the Anthropic notice, and working links
+- [x] Version set to **1.0.0** with a changelog entry (section 2)
+- [x] README has screenshots, the Anthropic notice, and working links
+- [ ] Screenshots and README pushed to GitHub `main`
+- [ ] A real status-bar screenshot added to the README (optional but recommended)
 - [ ] `npm.cmd run package` passes and the `.vsix` was tried by hand
 - [ ] Uploaded in the browser (5.1), or published with Entra (5.2)
 - [ ] Optional: Open VSX (section 7), verified domain (4.4), release automation (section 8)

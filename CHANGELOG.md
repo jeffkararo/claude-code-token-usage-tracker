@@ -1,7 +1,17 @@
 # Changelog
 
-Versions below 1.0.0 are development builds and are not published to the Marketplace.
-The first Marketplace release will be **1.0.0**.
+Versions below 1.0.0 were development builds and were not published to the Marketplace.
+The first Marketplace release is **1.0.0**.
+
+## 1.0.0 — 2026-10-26
+
+First Marketplace release. The extension behaves exactly as 0.9.0 did; this release is the listing.
+
+- Rewrote the README as the Marketplace page: a quick start, requirements (rate limits need a Pro or Max plan), exactly what the optional statusline bridge changes, a command and settings reference, and troubleshooting. It now shows the real status-bar text.
+- Eight new sample-data screenshots (limit pace, tokens by reasoning effort, projects and heatmap, prompt history, sessions, a light theme), regenerated with `npm run screenshots` so they can be refreshed at each release.
+- Added a gallery banner, a Free pricing label and more search keywords to the listing.
+- Moved developer notes from the README to `docs/development.md`.
+- macOS and Linux have had less real-world use than Windows; please report anything odd.
 
 ## 0.9.0 — 2026-10-17
 
